@@ -69,8 +69,12 @@ def on_intent(intent_request, session):
     # Dispatch to your skill's intent handlers
     if intent_name == "TakeSurveyIntent":
         return start_survey_session(intent, session)
-    elif intent_name == "WhatsMyColorIntent":
-        return get_color_from_session(intent, session)
+    elif intent_name == "ChoiceIntent":
+        return choice_survey(intent, session)
+    elif intent_name == "OpenAnswerIntent":
+        return open_answer_survey(intent, session)
+    elif intent_name == "SubmitIntent":
+        return submit_survey(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     else:
@@ -114,10 +118,56 @@ def start_survey_session(intent, session):
     session_attributes = {}
     should_end_session = False
 
-    speech_output = "Are you ready to take a survey? "
-    reprompt_text = "Are you ready to take a survey? "
+    speech_output = "Let's start with your survey. Did Sally sell sea shells by the sea shore? You choices are: a, Yes. b, No. c, May be. d, Who is Sally?"
+    reprompt_text = "Did Sally sell sea shells by the sea shore? You choices are: a, Yes. b, No. c, May be. d, Who is Sally?"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
+
+def choice_survey(intent, session):
+    """ Sets the color in the session and prepares the speech to reply to the
+    user.
+    """
+
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+
+    speech_output = "Thanks. You choice has been saved. The next question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    reprompt_text = "Your question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    # else:
+    #     speech_output = "I'm not sure what you choice is. " \
+    #                     "You can say, a. b, c. or d."
+    #     reprompt_text = "I'm not sure what you choice is. " \
+    #                     "You can say, a. b, c. or d."
+    #     should_end_session = False
+
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
+
+
+def open_answer_survey(intent, session):
+    """ Sets the color in the session and prepares the speech to reply to the
+    user.
+    """
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+
+    if "OpenAnswer" in session.get('attributes', {}):
+        answer = session['attributes']['OpenAnswer']
+        speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
+        reprompt_text = "Are you ready to submit it?"
+        should_end_session = False
+    else:
+        speech_output = "I'm not sure what you said. " \
+                        "Please answer: How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+        reprompt_text = "Please answer: How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+        should_end_session = False
+
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
+
 
 
 def create_favorite_color_attributes(favorite_color):
@@ -136,6 +186,26 @@ def get_color_from_session(intent, session):
     else:
         speech_output = "I'm not sure what your favorite color is. " \
                         "You can say, my favorite color is red."
+        should_end_session = False
+
+    # Setting reprompt_text to None signifies that we do not want to reprompt
+    # the user. If the user does not respond or says something that is not
+    # understood, the session will end.
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
+
+
+def submit_survey(intent, session):
+    session_attributes = {}
+    reprompt_text = None
+
+    if "submit" in session.get('attributes', {}):
+        submit = session['attributes']['submit']
+        speech_output = "Thanks. Your survey has been submitted. Goodbye."
+        should_end_session = True
+    else:
+        speech_output = "Please confirm, are you ready to submit your survey? "
+        reprompt_text = "Are you ready to submit your survey? "
         should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
