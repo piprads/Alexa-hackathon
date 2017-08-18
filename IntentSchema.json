@@ -4,22 +4,22 @@
       "intent": "TakeSurveyIntent"
     },
     {
+      "slots": [
+        {
+          "name": "CHOICE",
+          "type": "CHOICE"
+        }
+      ],
       "intent": "ChoiceIntent"
     },
     {
-      "slots": [
-        {
-          "name": "Submit",
-          "type": "AMAZON.LITERAL"
-        }
-      ],
       "intent": "SubmitIntent"
     },
     {
       "slots": [
         {
-          "name": "OpenAnswer",
-          "type": "AMAZON.LITERAL"
+          "name": "OPENEND",
+          "type": "OPENEND"
         }
       ],
       "intent": "OpenAnswerIntent"
