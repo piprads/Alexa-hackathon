@@ -65,7 +65,7 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "TakeSurvey":
+    if intent_name == "TakeSurveyIntent":
         return start_survey_session(intent, session)
     elif intent_name == "WhatsMyColorIntent":
         return get_color_from_session(intent, session)
@@ -112,21 +112,8 @@ def start_survey_session(intent, session):
     session_attributes = {}
     should_end_session = False
 
-    if 'Color' in intent['slots']:
-        favorite_color = intent['slots']['Color']['value']
-        session_attributes = create_favorite_color_attributes(favorite_color)
-        speech_output = "I now know your favorite color is " + \
-                        favorite_color + \
-                        ". You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-        reprompt_text = "You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-    else:
-        speech_output = "I'm not sure what your favorite color is. " \
-                        "Please try again."
-        reprompt_text = "I'm not sure what your favorite color is. " \
-                        "You can tell me your favorite color by saying, " \
-                        "my favorite color is red."
+    speech_output = "Are you ready to take a survey? "
+    reprompt_text = "Are you ready to take a survey? "
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
