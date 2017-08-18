@@ -201,7 +201,7 @@ def create_favorite_color_attributes(favorite_color):
 def submit_survey(intent, session):
     session_attributes = {}
 
-    speech_output = "Thanks. Your survey has been submitted. Goodbye."
+    speech_output = "Thanks. Your survey has been submitted. Please come back to take more contribute surveys. Good Bye."
     reprompt_text = "Are you ready to submit your survey? "
     should_end_session = True
     # else:
