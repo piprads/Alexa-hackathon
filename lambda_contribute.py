@@ -175,7 +175,7 @@ def nps_answer_survey(intent, session):
     # option_chosen = intent['slots']['CHOICE']['value']
 
     # option_id = options_map[option_chosen]
-    # create_response(question_id, option_id=option_id, text=None)
+    # create_response(question_id, option_id=option_id, text=None, row_id='1125923354')
     speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
     reprompt_text = "Are you ready to submit it?"
 
@@ -265,7 +265,7 @@ def build_response(session_attributes, speechlet_response):
         'response': speechlet_response
     }
 
-def create_response(question_id, option_id=None, text=None):
+def create_response(question_id, option_id=None, text=None, row_id=None):
     survey_id = '121187943'
     collector_id = '160877259'
     page_id = '46904417'
@@ -273,6 +273,10 @@ def create_response(question_id, option_id=None, text=None):
     answer_data = [{
 	'choice_id': option_id
     }]
+    if row_id:
+        answer_data[0].update({
+            'row_id': row_id
+        })
     if not option_id:
         answer_data = [{
             'text': text
