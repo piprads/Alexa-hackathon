@@ -7,6 +7,8 @@ http://amzn.to/1LGWsLG
 """
 
 from __future__ import print_function
+import json
+import urllib2
 
 
 def lambda_handler(event, context):
@@ -240,3 +242,34 @@ def build_response(session_attributes, speechlet_response):
         'sessionAttributes': session_attributes,
         'response': speechlet_response
     }
+
+def create_response(question_id, option_id=None, text=None):
+    survey_id = '121187943'
+    collector_id = '160877259'
+    page_id = '46904417'
+    access_token = 'VBotjgizrpcSH7xAiqtAdrh1E96jN7hSh30fNxsPSK4n4Qvb59lyNpr8C9ViqFZLzhcM2kqNCbMd0TwFAE34n9MEXICVIUmwMdQez1lOi15CsbH-bp1k2dUROhXhbGMp'
+    answer_data = [{
+	'choice_id': option_id
+    }]
+    if not option_id:
+        answer_data = [{
+            'text': text
+        }]
+    data = json.dumps({
+        'pages': [{
+            'id': page_id,
+            'questions': [{
+                'answers': answer_data,
+                'id': question_id
+            }]
+        }]
+    })
+    url = 'https://api.surveymonkey.net/v3/collectors/{}/responses'.format(collector_id)
+    headers = {
+    	'Content-Type': 'application/json',
+    	'Authorization': "Bearer {}".format(access_token)
+    }
+    req = urllib2.Request(url, data, headers)
+    f = urllib2.urlopen(req)
+    response = f.read()
+    f.close()
