@@ -73,6 +73,8 @@ def on_intent(intent_request, session):
         return choice_survey(intent, session)
     elif intent_name == "OpenAnswerIntent":
         return open_answer_survey(intent, session)
+    elif intent_name == "NPSIntent":
+        return nps_answer_survey(intent, session)
     elif intent_name == "SubmitIntent":
         return submit_survey(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
@@ -157,12 +159,25 @@ def choice_survey(intent, session):
     create_response(question_id, option_id=option_id, text=None)
     speech_output = "Thanks. You choice has been saved. The next question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
     reprompt_text = "Your question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
-    # else:
-    #     speech_output = "I'm not sure what you choice is. " \
-    #                     "You can say, a. b, c. or d."
-    #     reprompt_text = "I'm not sure what you choice is. " \
-    #                     "You can say, a. b, c. or d."
-    #     should_end_session = False
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
+
+
+def nps_answer_survey(intent, session):
+    """ Sets the color in the session and prepares the speech to reply to the
+    user.
+    """
+
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+
+    # option_chosen = intent['slots']['CHOICE']['value']
+
+    # option_id = options_map[option_chosen]
+    # create_response(question_id, option_id=option_id, text=None)
+    speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
+    reprompt_text = "Are you ready to submit it?"
 
     return build_response(session_attributes, build_speechlet_response(
         intent['name'], speech_output, reprompt_text, should_end_session))
@@ -180,8 +195,12 @@ def open_answer_survey(intent, session):
 
     create_response(question_id, option_id=None, text=text)
 
-    speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
-    reprompt_text = "Are you ready to submit it?"
+
+    speech_output = "Thanks. You answer has been saved. The next question is, How like is that you would recommend survey monkey to a friend? 0 being not at all likely to 10 being extremely likely"
+    reprompt_text = "How like is that you would recommend survey monkey to a friend? 0 being not at all likely to 10 being extremely likely"
+
+    # speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
+    # reprompt_text = "Are you ready to submit it?"
 
     # else:
     #     speech_output = "I'm not sure what you said. " \
