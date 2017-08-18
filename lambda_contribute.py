@@ -152,16 +152,14 @@ def open_answer_survey(intent, session):
     session_attributes = {}
     should_end_session = False
 
-    if "OpenAnswer" in session.get('attributes', {}):
-        answer = session['attributes']['OpenAnswer']
-        speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
-        reprompt_text = "Are you ready to submit it?"
-        should_end_session = False
-    else:
-        speech_output = "I'm not sure what you said. " \
-                        "Please answer: How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
-        reprompt_text = "Please answer: How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
-        should_end_session = False
+    speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
+    reprompt_text = "Are you ready to submit it?"
+
+    # else:
+    #     speech_output = "I'm not sure what you said. " \
+    #                     "Please answer: How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    #     reprompt_text = "Please answer: How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    #     should_end_session = False
 
     return build_response(session_attributes, build_speechlet_response(
         intent['name'], speech_output, reprompt_text, should_end_session))
