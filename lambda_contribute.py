@@ -118,8 +118,8 @@ def start_survey_session(intent, session):
     session_attributes = {}
     should_end_session = False
 
-    speech_output = "Let's start with your survey. Did Sally sell sea shells by the sea shore? You choices are: a, Yes. b, No. c, May be. d, Who is Sally?"
-    reprompt_text = "Did Sally sell sea shells by the sea shore? You choices are: a, Yes. b, No. c, May be. d, Who is Sally?"
+    speech_output = "Let's start with your survey. Did Sally sell sea shells by the sea shore? Your choices are: a, Yes. b, No. c, May be. d, Who is Sally?"
+    reprompt_text = "Did Sally sell sea shells by the sea shore? Your choices are: a, Yes. b, No. c, May be. d, Who is Sally?"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
