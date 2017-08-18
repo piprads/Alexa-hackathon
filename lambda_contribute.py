@@ -245,18 +245,23 @@ def build_response(session_attributes, speechlet_response):
         'response': speechlet_response
     }
 
-def create_response(question_id, option_id=None):
+def create_response(question_id, option_id=None, text=None):
     survey_id = '121187943'
     collector_id = '160877259'
     page_id = '46904417'
     access_token = 'VBotjgizrpcSH7xAiqtAdrh1E96jN7hSh30fNxsPSK4n4Qvb59lyNpr8C9ViqFZLzhcM2kqNCbMd0TwFAE34n9MEXICVIUmwMdQez1lOi15CsbH-bp1k2dUROhXhbGMp'
+    answer_data = [{
+	'choice_id': option_id
+    }]
+    if not option_id:
+        answer_data = [{
+            'text': text
+        }]
     data = json.dumps({
         'pages': [{
             'id': page_id,
             'questions': [{
-                'answers': [{
-                    'choice_id': option_id
-                }],
+                'answers': answer_data,
                 'id': question_id
             }]
         }]
