@@ -25,6 +25,15 @@
       "intent": "OpenAnswerIntent"
     },
     {
+      "slots": [
+        {
+          "name": "NPS",
+          "type": "NPS"
+        }
+      ],
+      "intent": "NPSIntent"
+    },
+    {
       "intent": "DontKnowIntent"
     },
     {
