@@ -141,28 +141,29 @@ def choice_survey(intent, session):
     session_attributes = {}
     should_end_session = False
     question_id = "155048494"
-    options_map = {
-        "A": "1124046849",
-        "A.": "1124046849",
-        "a": "1124046849",
-        "a.": "1124046849",
-        "B": "1124046850",
-        "B.": "1124046850",
-        "b": "1124046850",
-        "b.": "1124046850",
-        "C": "1124046851",
-        "C.": "1124046851",
-        "c": "1124046851",
-        "c.": "1124046851",
-        "D": "1124046852",
-        "D.": "1124046852",
-        "d": "1124046852",
-        "d.": "1124046852"
-    }
-    option_chosen = intent['slots']['CHOICE']['value']
-
-    option_id = options_map[option_chosen]
     try:
+        options_map = {
+            "A": "1124046849",
+            "A.": "1124046849",
+            "a": "1124046849",
+            "a.": "1124046849",
+            "B": "1124046850",
+            "B.": "1124046850",
+            "b": "1124046850",
+            "b.": "1124046850",
+            "C": "1124046851",
+            "C.": "1124046851",
+            "c": "1124046851",
+            "c.": "1124046851",
+            "D": "1124046852",
+            "D.": "1124046852",
+            "d": "1124046852",
+            "d.": "1124046852"
+        }
+        option_chosen = intent['slots']['CHOICE']['value']
+
+        option_id = options_map[option_chosen]
+
         create_response(question_id, option_id=option_id, text=None)
     except:
         pass
@@ -183,25 +184,26 @@ def nps_answer_survey(intent, session):
     question_id = "155334902"
 
 
-    option_chosen = intent['slots']['NPS']['value']
-
-    options_map = {
-        "0": "1125923357",
-        "1.": "1125923359",
-        "2": "1125923361",
-        "3": "1125923363",
-        "4": "1125923366",
-        "5.": "1125923367",
-        "6": "1125923368",
-        "7": "1125923369",
-        "8": "1125923370",
-        "9": "1125923371",
-        "10": "1125923372"
-    }
-
-
-    option_id = options_map[option_chosen]
     try:
+        option_chosen = intent['slots']['NPS']['value']
+
+        options_map = {
+            "0": "1125923357",
+            "1.": "1125923359",
+            "2": "1125923361",
+            "3": "1125923363",
+            "4": "1125923366",
+            "5.": "1125923367",
+            "6": "1125923368",
+            "7": "1125923369",
+            "8": "1125923370",
+            "9": "1125923371",
+            "10": "1125923372"
+        }
+
+
+        option_id = options_map[option_chosen]
+
         create_response(question_id, option_id=option_id, text=None, row_id='1125923354')
     except:
         pass
