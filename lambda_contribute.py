@@ -77,6 +77,12 @@ def on_intent(intent_request, session):
         return nps_answer_survey(intent, session)
     elif intent_name == "SubmitIntent":
         return submit_survey(intent, session)
+    elif intent_name == "AMAZON.StartOverIntent":
+        return start_survey_session(intent, session)
+    elif intent_name == "AMAZON.YesIntent":
+        return start_survey_session(intent, session)
+    elif intent_name == "AMAZON.NoIntent":
+        return get_welcome_response()
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     else:
@@ -156,9 +162,12 @@ def choice_survey(intent, session):
     option_chosen = intent['slots']['CHOICE']['value']
 
     option_id = options_map[option_chosen]
-    create_response(question_id, option_id=option_id, text=None)
-    speech_output = "Thanks. You choice has been saved. The next question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
-    reprompt_text = "Your question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    try:
+        create_response(question_id, option_id=option_id, text=None)
+    except:
+        pass
+    speech_output = "Thanks. Your choice has been saved. The next question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+    reprompt_text = "I repeat. Your question is, How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
     return build_response(session_attributes, build_speechlet_response(
         intent['name'], speech_output, reprompt_text, should_end_session))
 
@@ -171,11 +180,31 @@ def nps_answer_survey(intent, session):
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
+    question_id = "155334902"
 
-    # option_chosen = intent['slots']['CHOICE']['value']
 
-    # option_id = options_map[option_chosen]
-    # create_response(question_id, option_id=option_id, text=None, row_id='1125923354')
+    option_chosen = intent['slots']['NPS']['value']
+
+    options_map = {
+        "0": "1125923357",
+        "1.": "1125923359",
+        "2": "1125923361",
+        "3": "1125923363",
+        "4": "1125923366",
+        "5.": "1125923367",
+        "6": "1125923368",
+        "7": "1125923369",
+        "8": "1125923370",
+        "9": "1125923371",
+        "10": "1125923372"
+    }
+
+
+    option_id = options_map[option_chosen]
+    try:
+        create_response(question_id, option_id=option_id, text=None, row_id='1125923354')
+    except:
+        pass
     speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
     reprompt_text = "Are you ready to submit it?"
 
@@ -193,10 +222,13 @@ def open_answer_survey(intent, session):
     question_id = "155048829"
     text = intent['slots']['OPENEND']['value']
 
-    create_response(question_id, option_id=None, text=text)
+    try:
+        create_response(question_id, option_id=None, text=text)
+    except:
+        pass
 
 
-    speech_output = "Thanks. You answer has been saved. The next question is, How like is that you would recommend survey monkey to a friend? 0 being not at all likely to 10 being extremely likely"
+    speech_output = "Thanks. You answer has been saved. The last question is, How like is that you would recommend survey monkey to a friend? 0 being not at all likely to 10 being extremely likely"
     reprompt_text = "How like is that you would recommend survey monkey to a friend? 0 being not at all likely to 10 being extremely likely"
 
     # speech_output = "Thanks. You answer has been saved. You have reached the end of your survey. Are you ready to submit it?"
@@ -220,7 +252,7 @@ def create_favorite_color_attributes(favorite_color):
 def submit_survey(intent, session):
     session_attributes = {}
 
-    speech_output = "Thanks. Your survey has been submitted. Please come back to take more contribute surveys. Good Bye."
+    speech_output = "Thanks. Your survey has been submitted. Good Bye."
     reprompt_text = "Are you ready to submit your survey? "
     should_end_session = True
     # else:
