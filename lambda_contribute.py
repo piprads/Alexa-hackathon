@@ -107,7 +107,7 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to the Alexa Skills Survey Monkey Contribute. " \
+    speech_output = "Welcome to Survey Monkey Contribute. " \
                     "Are you ready to take a Survey? "
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
